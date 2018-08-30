@@ -21,6 +21,7 @@ static int df_tg_check(const struct xt_tgchk_param *param)
 static unsigned int df_tg(struct sk_buff *skb, const struct xt_action_param *param)
 {
 	__u32 check;
+	//ip是网络序（大端）
 	struct iphdr *iph = ip_hdr(skb);
 	df_mode mode = ((struct xt_df_tginfo *)(param->targinfo))->mode;
 	__u16 old_frag_off, new_frag_off;

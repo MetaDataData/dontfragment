@@ -6,6 +6,9 @@
 
 #include "ipt_DF.h"
 
+
+//#define IP_DF 0x4000  /* Flag: "Don't Fragment" */
+
 MODULE_AUTHOR("Semyon Verchenko");
 MODULE_DESCRIPTION("Netfilter module to set/reset DF flag");
 MODULE_LICENSE("Dual BSD/GPL");
@@ -42,8 +45,8 @@ static unsigned int df_tg(struct sk_buff *skb, const struct xt_action_param *par
 	if ((check + 1) >> 16) check = (check + 1) & 0xffff;
 	check -= new_frag_off;
 	check += check >> 16;
-
-	iph->frag_off = ntohs(new_frag_off);
+	//应该是htons
+	iph->frag_off = htons(new_frag_off);
 	iph->check = (__force __sum16) htons(check);
 	return XT_CONTINUE;
 }
